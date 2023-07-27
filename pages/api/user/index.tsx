@@ -1,0 +1,78 @@
+export const user: any = [
+  {
+    id: 1,
+    user: {
+      name: "phương Lê",
+      idStudent: "DE180914",
+      address: "null",
+      number: 1,
+      data: {
+        banner: false,
+        popular: false,
+        check: "food",
+        url: "images/food-miaso.jpg",
+        alt: "3",
+        detail: "Đây là những món ngon tuyệt vời",
+        money: "30000",
+        name: "Miaso",
+      },
+    },
+  },
+  {
+    id: 2,
+    user: {
+      name: "Kim Oanh",
+      idStudent: "DE18091",
+      address: "aa",
+      number: 1,
+      data: {
+        banner: false,
+        popular: false,
+        check: "food",
+        url: "images/food-miaso.jpg",
+        alt: "3",
+        detail: "Đây là những món ngon tuyệt vời",
+        money: "30000",
+        name: "Miaso",
+      },
+    },
+  },
+  {
+    id: 3,
+    user: {
+      name: "phương Lê",
+      idStudent: "DE180914",
+      address: "null",
+      number: 1,
+      data: {
+        banner: false,
+        popular: false,
+        check: "food",
+        url: "images/food-miaso.jpg",
+        alt: "3",
+        detail: "Đây là những món ngon tuyệt vời",
+        money: "30000",
+        name: "Miaso",
+      },
+    },
+  },
+  {
+    id: 4,
+    user: {
+      name: "Kim Oanh",
+      idStudent: "DE18091",
+      address: "aa",
+      number: 1,
+      data: {
+        banner: false,
+        popular: false,
+        check: "food",
+        url: "images/food-miaso.jpg",
+        alt: "3",
+        detail: "Đây là những món ngon tuyệt vời",
+        money: "30000",
+        name: "Miaso",
+      },
+    },
+  },
+];
