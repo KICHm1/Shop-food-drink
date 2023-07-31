@@ -20,7 +20,10 @@
     "@types/react-dom": "18.2.5",
     "autoprefixer": "10.4.14",
     "babel-plugin-macros": "^3.1.0",
+<<<<<<< HEAD
     "bootstrap": "^5.2.1",
+=======
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
     "dotenv": "^16.3.1",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.5",
@@ -28,7 +31,10 @@
     "framer-motion": "^10.13.2",
     "index.js": "^0.0.3",
     "mongoose": "^7.3.1",
+<<<<<<< HEAD
     "mysql": "^2.18.1",
+=======
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
     "next": "13.4.5",
     "nodemon": "^3.0.1",
     "package.json": "^0.0.0",

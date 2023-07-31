@@ -1,10 +1,18 @@
 "use client";
 import { LinkProps } from "next/link";
+<<<<<<< HEAD
 import React, { ChangeEvent, LegacyRef, SetStateAction } from "react";
+=======
+import React, { LegacyRef } from "react";
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
 import { useState, useEffect ,useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MouseEvent } from "react";
+<<<<<<< HEAD
+=======
+import { useHref } from "react-router";
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { EachProductSkeleton } from "../../../components/listSkeleton";
@@ -17,7 +25,10 @@ function ProductPage(this: any, { params }: any) {
   const [focusInputIdStudent, setFocusInputIdStudent] = useState< Boolean >(false);
   const [focusInputAddress, setFocusInputAddress] = useState< Boolean >(false);
   const buySuccess = useRef<HTMLDivElement>(null);
+<<<<<<< HEAD
   const contentComment = useRef<HTMLParagraphElement>(null)
+=======
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
   // set change input
   const [changeInputFirstName, setChangeInputFirstName] = useState(null);
   const [changeInputLastName, setChangeInputLastName] = useState(null);
@@ -35,7 +46,11 @@ function ProductPage(this: any, { params }: any) {
   // check da mua hang chua
   const [checkBuyProduct, setCheckBuyProduct] = useState(false);
   //
+<<<<<<< HEAD
   const [eventAfterBuy, setEventAfterBuy] = useState < "yet" | "loading" | "success" | "done"  > ("yet");
+=======
+  const [eventAfterBuy, setEventAfterBuy] = useState < "yet" | "loading" | "success"  > ("yet");
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
   //
   const [amount, setAmount] = useState(1);
   const [comments, setcomments] = useState({});
@@ -98,6 +113,7 @@ const containerLeft = {
   }
 }
 const alertBuySuccess = {
+<<<<<<< HEAD
   yet:{
     scale : 0,
     y : "-50%",
@@ -133,6 +149,27 @@ const alertBuySuccess = {
   }
 }
   const data : any = api.filter((item: any) => item.id == params.id)[0];
+=======
+  hidden: {
+    x : "-60vw",
+    rotate : 0,
+  },
+  show : {
+    x: 0,
+    rotate : 360,
+    transition : {
+      type : "spring",
+      bounce : 1,
+      duration : 1, 
+    }
+  },
+  exit: {
+
+  },
+}
+  const data : any = api.filter((item: any) => item.id == params.id)[0];
+  console.log('data', data)
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
   const onFocusFirstName = () => {
     setFocusInputFirstName((focusInputFirstName) => true);
   };
@@ -213,14 +250,23 @@ const alertBuySuccess = {
     }
   };
   // set tang giam so luong
+<<<<<<< HEAD
   const onChangeAmount = (event: MouseEvent | ChangeEvent  ) => {
     const target = event.target as HTMLTextAreaElement;
     switch (target.name) {
+=======
+  const onChangeAmount = (event: any) => {
+    switch (event.target.name) {
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
       case "down":
         if (amount > 1) setAmount((amount: number) => amount - 1);
         break;
       case "content":
+<<<<<<< HEAD
         setAmount( parseInt(target.value) );
+=======
+        setAmount(event.target.value);
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
         break;
       case "up":
         setAmount((amount: number) => ++amount);
@@ -284,7 +330,11 @@ const alertBuySuccess = {
   }, []);
   let setLabelFirstName =
     focusInputFirstName || changeInputFirstName
+<<<<<<< HEAD
       ? "xl:left-[50%] lg:left-[40%] md:left-[60%] sm:left-[55%] left-[45%] sm:translate-y-[50%] translate-y-[75%] z-[3]"
+=======
+      ? "lg:left-[55%] md:left-[60%] sm:left-[55%] left-[45%] sm:translate-y-[50%] translate-y-[75%] z-[3]"
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
       : "z-[1] left-[1%] translate-y-0 text-[#000] flex";
   let setLabelLastName =
     focusInputLastName || changeInputLastName
@@ -314,10 +364,16 @@ const alertBuySuccess = {
   return (
     <section 
      onClick={(event : MouseEvent<HTMLDivElement>) => {
+<<<<<<< HEAD
        if( !buySuccess.current?.contains((event.target as Node))) setEventAfterBuy("done")
      }}
       className="bg-[#fdfaf6] relative">
        <div className="lg:px-[120px] max-w-[1440px] px-[20px] py-[120px] mx-[auto] flex flex-col z-[4]">
+=======
+      if( !buySuccess.current?.contains((event.target as Node))) setEventAfterBuy("yet")
+     }}
+      className="bg-[#fdfaf6] relative">
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
       {eventAfterBuy == "loading" ?   
         <div className="fixed flex flex-wrap justify-center content-center left-0 right-0 top-0 bottom-0 z-[5] bg-[#ffffff6f]  ">
           <div className="overflow-hidden lg:w-[150px] lg:h-[150px] sm:w-[125px] sm:h-[125px] w-[100px] h-[100px]">
@@ -325,19 +381,35 @@ const alertBuySuccess = {
           </div>
         </div>: null }
       <AnimatePresence>
+<<<<<<< HEAD
             <motion.div
               variants={alertBuySuccess}
               initial="yet"
               animate = {eventAfterBuy == "yet" ?  "yet" : eventAfterBuy == "success" ? "success" : eventAfterBuy == "done" ? "done" : ""}
               ref={buySuccess} className={`fixed left-[50%]  z-[5] top-[50%]  gap-[5px] flex flex-col  p-[20px] overflow-hidden rounded-[20px] border-[2px] border-[#f95555] bg-[#fff]`}>
+=======
+          {eventAfterBuy == "success" &&
+            <motion.div
+              variants={alertBuySuccess}
+              initial = "hidden"
+              animate = "show"
+              exit = "exit"
+              ref={buySuccess} className={`fixed left-[50%] translate-x-[-50%] z-[5] top-[50vh] translate-y-[-50%] gap-[5px] flex flex-col  p-[20px] overflow-hidden rounded-[20px] border-[2px] border-[#f95555] bg-[#fff]`}>
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
             <p className="font-[700] flex justify-center text-[#f95555]  text-[1.4rem]">Mua thành công</p>
             <p className="font-[500] text-[#f95555]  text-[1.3rem] ">Cảm ơn bạn đã mua sản phẩm</p>
             <div   className="flex gap-[10px] justify-between ">
               <Link onClick={() => setEventAfterBuy("yet")} href="/"  className="bg-[#f95555] p-[10px] rounded-[10px] w-[calc((100%-10px)/2)] flex justify-center text-[16px] font-[600] text-[#fff]" >Trang chủ</Link>
               <Link onClick={() => setEventAfterBuy("yet")} href="#comment" className="bg-[#f95555] p-[10px] rounded-[10px] w-[calc((100%-10px)/2)] flex justify-center text-[16px] font-[600] text-[#fff]" >Bình luận</Link>
             </div>
+<<<<<<< HEAD
            </motion.div>
       </AnimatePresence>
+=======
+           </motion.div>}
+      </AnimatePresence>
+      <div className="lg:px-[120px] max-w-[1440px] px-[20px] py-[120px] mx-[auto] flex flex-col z-[4]">
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
         <div className="group relative overflow-hindden lg:flex-row flex-col  max-w-[1440px] flex flex-wrap">
           <motion.div
             initial = "hidden"
@@ -386,10 +458,17 @@ const alertBuySuccess = {
             </p>
             <form
               action="submit"
+<<<<<<< HEAD
               className="flex justify-between  flex-wrap gap-[10px]"
             >
               <div
                 className={`${setBorderFirstName}  group relative border-[2px] w-[calc((100%-20px)/2)] h-[30px] rounded-[5px] transition-all duration-[0.5s]  bg-[#fdfaf6]`}
+=======
+              className="flex justify-between flex-wrap gap-[10px]"
+            >
+              <div
+                className={`${setBorderFirstName} lg:text-[17px] sm:text-[16px] text-[14px] group relative border-[2px] w-[calc((100%-20px)/2)] h-[30px] rounded-[5px] transition-all duration-[0.5s]  bg-[#fdfaf6]`}
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
               >
                 <div>
                   <input
@@ -402,7 +481,11 @@ const alertBuySuccess = {
                     className="bg-[transparent] absolute left-2 bottom-[1px] outline-none z-[2]"
                   />
                   <span
+<<<<<<< HEAD
                     className={`${setLabelFirstName} w-[auto] xl:text-[15px] lg:text-[14px] sm:text-[14px] text-[11px]  absolute  font-[400] left-2 bg-[#fdfaf6] drop-shadow[0_0_2px_#fff] transition-all duration-[0.5s] `}
+=======
+                    className={`${setLabelFirstName} w-[auto]  absolute  font-[400] left-2 bg-[#fdfaf6] drop-shadow[0_0_2px_#fff] transition-all duration-[0.5s] `}
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
                   >
                     Họ và tên đệm
                   </span>
@@ -484,7 +567,11 @@ const alertBuySuccess = {
                         type="text"
                         name="content"
                         onBlur={(event) => onBlurAmount(event)}
+<<<<<<< HEAD
                         onChange={(event : ChangeEvent) => onChangeAmount(event)}
+=======
+                        onChange={(event) => onChangeAmount(event)}
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
                         value={amount}
                         className="outline-0 bg-[transparent] w-[50px] text-center appearance-none "
                       />
@@ -493,7 +580,11 @@ const alertBuySuccess = {
                       type="button"
                       name="up"
                       value="+"
+<<<<<<< HEAD
                       onClick={(event : MouseEvent) => onChangeAmount(event)}
+=======
+                      onClick={(event) => onChangeAmount(event)}
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
                       className="font-[700] text-[20px] w-[40px]"
                     />
                   </div>
@@ -524,6 +615,7 @@ const alertBuySuccess = {
             <h2 className="text-[24px] font-[700]">Đánh Giá</h2>
           </div>
           {checkBuyProduct ? (
+<<<<<<< HEAD
             <div className="flex relative w-[100%] gap-[20px]">
               <div role="textbox" 
                 onKeyDown={(event : React.KeyboardEvent<HTMLDivElement>) => {
@@ -539,6 +631,20 @@ const alertBuySuccess = {
                      aria-valuetext="" className=" w-[100%] h-[25px]">
                 </p>
               </div>
+=======
+            <div className="flex  w-[100%] gap-[20px]">
+              <input
+                value={commentEvaluate}
+                onKeyDown={(event) => {
+                  if (event.code == "Enter") onSubmitComment();
+                }}
+                onChange={(event: any) => {
+                  setCommentEvaluate(event.target.value);
+                }}
+                id=""
+                className="w-[80%] break-words h-[50px] border-[2px] border-[#f95555] outline-none text-[#f95555] rounded-[2px] overflow-x-auto"
+              ></input>
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
               <input
                 type="button"
                 value="Gửi"

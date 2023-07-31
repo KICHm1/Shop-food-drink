@@ -17,7 +17,10 @@ const tap={
       bounce : 0.8,
       duration : 1.5,
       times : [0, 0.5 , 0.6 , 0.8 ],
+<<<<<<< HEAD
       
+=======
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
     }
   },
   offTap : {
@@ -33,7 +36,11 @@ const tap={
   }
 }
 const Index = (props : any) => {
+<<<<<<< HEAD
   const [btnState, setBtnState] = useState<false | true> (false);
+=======
+  const [btnState, setBtnState] = useState<false | true> ();
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
   let classClickLi1 = btnState
     ? "translate-x-[0px] translate-y-[10px] rotate-[-45deg]"
     : "translate-x-[0px] translate-y-[0px] rotate-[0deg]";
@@ -68,11 +75,18 @@ const Index = (props : any) => {
         ></li>
       </button>
       <motion.ul
+<<<<<<< HEAD
         initial="offTap"
         animate ={btnState ? "onTap" : "offTap" }
         variants={tap}
         className={`lg:translate-y-0 z-0 flex absolute lg:text-[#000] lg:opacity-100 bg-[#f95555]  transition-[top]  lg:flex-row duration-[1.2s]   flex-wrap  lg:h-[auto] lg:static lg:bg-inherit content-center lg:p-0  font-[400] text-[18px] lg:justify-between items-center
        gap-[30px] lg:hidden   translate-y-[80px]  justify-start text-[#fff] h-[1024px] flex-col  pt-[60px]   left-0 right-0   `}
+=======
+        animate ={ btnState ? "onTap" : "offTap"}
+        variants={tap}
+        className={` z-0 flex absolute lg:text-[#000] lg:opacity-100 bg-[#f95555]  transition-[top]  lg:flex-row duration-[1.2s]   flex-wrap  lg:h-[auto] lg:static lg:bg-inherit content-center lg:p-0  font-[400] text-[18px] lg:justify-between items-center
+       gap-[30px] justify-start text-[#fff] h-[1024px] flex-col  pt-[60px]  left-0 right-0   `}
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
       >
         <li>
           <Link
@@ -81,7 +95,11 @@ const Index = (props : any) => {
             href="/"
             className=" relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:origin-center after:scale-x-[0] hover:after:scale-x-[100%] after:transition-transform after:duration-[500ms] after:delay-[100ms]  after:w-[100%] after:h-[2px] lg:after:bg-[#f95555] after:bg-[#fff]"
           >
+<<<<<<< HEAD
             { "Trang chủ"}
+=======
+            {!btnState || "Trang chủ"}
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
           </Link>
         </li>
         <li>
@@ -91,7 +109,11 @@ const Index = (props : any) => {
             href="/#popular"
             className=" relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:origin-center after:scale-x-[0] hover:after:scale-x-[100%] after:transition-transform after:duration-[500ms] after:delay-[100ms]   after:w-[100%] after:h-[2px] lg:after:bg-[#f95555] after:bg-[#fff]"
           >
+<<<<<<< HEAD
             { "Phổ biến"}
+=======
+            {!btnState || "Phổ biến"}
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
           </Link>
         </li>
         <li>
@@ -101,7 +123,11 @@ const Index = (props : any) => {
             href="/#food"
             className=" relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:origin-center after:scale-x-[0] hover:after:scale-x-[100%] after:transition-transform after:duration-[500ms] after:delay-[100ms]   after:w-[100%] after:h-[2px] lg:after:bg-[#f95555] after:bg-[#fff]"
           >
+<<<<<<< HEAD
             {"Thức ăn"}
+=======
+            {!btnState || "Thức ăn"}
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
           </Link>
         </li>
         <li>
@@ -111,7 +137,11 @@ const Index = (props : any) => {
             href="/#drink"
             className=" relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:origin-center after:scale-x-[0] hover:after:scale-x-[100%] after:transition-transform after:duration-[500ms] after:delay-[100ms] after:w-[100%] after:h-[2px] lg:after:bg-[#f95555] after:bg-[#fff]"
           >
+<<<<<<< HEAD
             { "Nước uống"}
+=======
+            {!btnState || "Nước uống"}
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
           </Link>
         </li>
         <li>
@@ -121,6 +151,7 @@ const Index = (props : any) => {
             href="/shop"
             className="lg:hidden block relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:origin-center after:scale-x-[0] hover:after:scale-x-[100%] after:transition-transform after:duration-[500ms] after:delay-[100ms] after:w-[100%] after:h-[2px] lg:after:bg-[#f95555] after:bg-[#fff]"
           >
+<<<<<<< HEAD
             { "Lịch sử mua hàng"}
           </Link>
         </li>
@@ -183,6 +214,15 @@ const Index = (props : any) => {
         <div className="flex gap-[10px]">
           <li className="xl:w-[300px] lg:w-[200px] lg:flex hidden justify-end">
             <span className=" flex items-center transition-width duration-[1.5s] hover:shadow-[0_0_30px_-10px_#f95555] hover:xl:w-[300px] hover:lg:w-[200px]   overflow-hidden rounded-full group justify-end w-[56px] h-[56px]  ">
+=======
+            {!btnState || "Lịch sử mua hàng"}
+          </Link>
+        </li>
+        </motion.ul>
+        <div className="flex gap-[10px]">
+          <li className="w-[300px] lg:flex hidden justify-end">
+            <span className=" flex items-center transition-width duration-[1.5s] hover:shadow-[0_0_30px_-10px_#f95555] hover:w-[300px]   overflow-hidden rounded-full group justify-end w-[56px] h-[56px]  ">
+>>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
               <input
                 type="search"
                 name="search"
