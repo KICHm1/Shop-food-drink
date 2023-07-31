@@ -23,10 +23,6 @@
       "@pageImage/*": ["./assets/images/pages/*"],
     }
   },
-<<<<<<< HEAD
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "index.js", "database.js"],
-=======
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "index.js"],
->>>>>>> e79bc2d72e1615fdbfd7dccbb4d70a4c71205dad
   "exclude": ["node_modules"]
 }
