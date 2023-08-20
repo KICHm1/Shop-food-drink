@@ -70,8 +70,10 @@ const Page = () => {
             <div>
               <p>Mã số sinh viên của bạn</p>
               <div className="flex gap-[20px]">
-                <motion.input
+                <div className="">
+                  <motion.input
                   initial="normal"
+                  autoFocus={true}
                   animate={ checkUser == 0 ? "trueCheck" : "falseCheck" }
                   variants={check}
                   onChange={ (e : ChangeEvent ) => {
@@ -89,8 +91,9 @@ const Page = () => {
                   type="text"
                   name="idStudent"
                   id=""
-                  className={`${checkUser == 0 ? "border-[#35fa27]" : "border-[#f95555]"} border-[2px] transition-border duration-[1s] delay-0  rounded-[10px] outline-none `}
+                  className={`${checkUser == 0 ? "border-[#35fa27]" : "border-[#f95555]"} pl-[10px] caret-[#f95555]  border-[2px] transition-border duration-[1s] delay-0  rounded-[10px] outline-none `}
                 />
+                  </div>
                 <button
                   onClick={() => checkInput(valueId)}
                   className=" rounded-[5px] bg-[#f9555577] hover:bg-[#f95555] px-[20px]  text-[#fff] text-[18px] cursor-pointer ">Gửi

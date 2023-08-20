@@ -6,96 +6,219 @@ import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { BannerSkeleton } from "../../listSkeleton";
+import { transform, wrap } from "framer-motion";
 import { motion, AnimatePresence } from "framer-motion";
+const container =
+  screen.width >= 1440
+    ? 1200
+    : screen.width >= 1024
+    ? screen.width - 240
+    : screen.width - 40 ;
 export default function Index(props: any) {
+  const [[page, direction], setPage] = useState([0, 0]);
+  const [translate, setTranslte] = useState(0);
+  const [startTranslate, setStartTranSlate] = useState(0);
   const data = props.data.filter((banner: any) => banner.banner == true);
-  const [btnState, setBtnState] = useState(0);
-  var check: Boolean;
-  const timeSlide = setInterval(autoSlideTime, 5000);
-  function autoSlideTime() {
-    if (check) {
-      let item = btnState;
-      if (item == 3) item = 0;
-      else item++;
-      setBtnState((btnState) => (btnState = item));
-      clearInterval(timeSlide);
-    } else check = true;
+  const image: Array<String> = [];
+  const location: Array<String> = [];
+  const variants = {
+    enter: (direction: number) => {
+      return {
+        x: direction > 0 ? (container + translate) : -(container + translate),
+        opacity: 1
+      };
+    },
+    center: {
+      zIndex: 3,
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => {
+      return {
+        zIndex: 5,
+        x: direction < 0 ? container : -container,
+        opacity: 1
+      };
+    }
+  };
+  if (props) {
+    const dataLength = data.length;
+    for (let i = 0; i < dataLength; i++) {
+      if (data[i].banner == true) {
+        image.push(data[i].url);
+        location.push(data[i].name);
+      }
+    }
   }
+  const swipeConfidenceThreshold = screen.width / 100;
+  const swipePower = (offset: number, velocity: number) => {
+    return Math.abs(offset) * velocity;
+  };
+  const imageIndex = wrap(0, image.length, page);
+  const setSlide = (newDirection: number) => {
+    setPage([page + newDirection, newDirection]);
+  };
+  var i : number;
+  var check: Boolean;
+  useEffect(() =>{
+    function autoSlideTime() {
+      if (check) {
+        setSlide(1);
+      } else check = true;
+    }
+    const interval = setInterval(autoSlideTime, 5000);
+    
+  return () => clearInterval(interval);
+  })
+  
 
   function backClick() {
-    clearInterval(timeSlide);
-    if (btnState === 0) setBtnState((btnState) => 3);
-    else setBtnState((btnState) => btnState - 1);
+    setSlide(-1);
     check = false;
   }
   function nextClick() {
-    clearInterval(timeSlide);
-    if (btnState === 3) return setBtnState((btnState) => 0);
-    else setBtnState((btnState) => btnState + 1);
-    check = false;
-  }
-  function clickBox(item: any) {
-    clearTimeout(timeSlide);
-    setBtnState((btnState) => (btnState = item));
+    setSlide(1);
     check = false;
   }
   return (
-    <motion.section
-      className="snap-center w-[100%] h-[auto] mt-[100px]  bg-[#fff]"
-    >
+    <motion.section className="snap-center w-[100%] h-[auto] mt-[100px]  bg-[#fff]">
       <div className="xl:mx-[auto] relative justify-between lg:px-[120px] p-[20px] pt-0 max-w-[1440px]  flex-col">
         <div className="flex ">
           <div className="flex flex-col justify-between w-[100%]">
             <div className="w-[100%]  h-[auto] ">
-              <div className="relative">
+              <div className="relative select-none">
                 {props.getLoading ? (
                   <BannerSkeleton />
                 ) : (
                   <div>
-                    <div className="flex relative overflow-hidden max-w-[1200px] lg:h-[500px] sm:h-[400px] h-[300px] lg:w-[calc(100vw-240px)] w-[calc(100vw-50px)] left-0 ">
+                    <div className="flex  overflow-hidden relative select-none max-w-[1200px] lg:h-[500px] sm:h-[400px] h-[300px] lg:w-[calc(100vw-240px)] w-[calc(100vw-50px)] left-0 ">
                       <button
                         onClick={backClick}
                         className="absolute z-10 left-0 lg:w-[30px] sm:w-[30px] w-[35px] flex items-center justify-center top-[50%]  translate-y-[-50%] h-[100%] opacity-70 bg-[#fff] "
                       >
                         &lt;
                       </button>
-                      {data.map((product: any, item: number) => {
-                        if (btnState == item)
-                          return (
-                            <a href="./">
-                              {" "}
-                              <Image
-                                key={item}
-                                className={` transition-all delay-[0.2s] z-2 absolute left-0 opacity-100 object-cover w-[100%] h-[100%]`}
-                                src={`/${product.url}`}
-                                alt=""
-                                width={1440}
-                                height={900}
-                              ></Image>{" "}
-                            </a>
-                          );
-                        else
-                          return (
+                      <AnimatePresence initial={false} custom={direction}>
+                        <motion.div
+                          className="select-none cursor-pointer absolute w-[300%] left-[-100%] flex h-[100%]"
+                          drag="x"
+                          dragConstraints={{ left:0 , right : 0}}
+                          transition={{
+                            x: { type: "easeInOut", duration: 1 },
+                            opacity: { duration: 1 },
+                          }}
+                          onDragStart={(e: MouseEvent) => {
+                            setStartTranSlate(e.clientX);
+                            check = false;
+                            e.preventDefault()
+                          }}
+                          dragElastic={1}
+                          onDrag={(e: MouseEvent) => {
+                            setTranslte(e.clientX - startTranslate);
+                            check = false;
+                            e.preventDefault()
+                          }}
+                          style={{ touchAction: "none" }}
+                          onDragEnd={(e, { offset, velocity }: any) => {
+                            check = false;
+                            const swipe = swipePower(offset.x, velocity.x);
+                            if (swipe < -swipeConfidenceThreshold) {
+                              setSlide(1);
+                            } else if (swipe > swipeConfidenceThreshold) {
+                              setSlide(-1);
+                            }
+                            setTranslte(0);
+                          }}
+                        >
+                          <motion.a
+                            href="./"
+                            className={`w-[100%] select-none relative z-[2] h-[100%] left-[-100%] `}
+                          
+                          >
                             <Image
-                              key={item}
-                              className=" transition-all delay-[100ms] absolute  opacity-0 object-cover w-[100%] h-[100%]"
-                              src={`/${product.url}`}
+                              className={` select-none relative z-[2]   opacity-100 object-cover w-[100%] h-[100%]`}
+                              src={
+                                imageIndex == 0
+                                  ? `/${image[image.length - 1]}`
+                                  : `/${image[imageIndex - 1]}`
+                              }
                               alt=""
                               width={1440}
                               height={900}
                             ></Image>
-                          );
-                      })}
+                          </motion.a>
+
+                          <motion.a
+                            key={page}
+                            href={`./${location[imageIndex]}`}
+                            dragElastic={1}
+                            custom={direction}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            variants={variants}
+                            transition={{
+                              x: { type: "easeInOut", duration: 1 },
+                              opacity: { duration: 1 },
+                            }}
+                            className="select-none pointer-events-none relative w-[100%] h-[100%]"
+                          >
+                            <Image
+                              className={`select-none absolute left-[-100%] top-0 z-[0]  object-cover w-[100%] h-[100%]`}
+                              src={imageIndex == 0
+                                ? `/${image[image.length - 1]}`
+                                : `/${image[imageIndex - 1]}`}
+                              alt=""
+                              width={1440}
+                              height={900}
+                            ></Image>
+                            <Image
+                              className={`select-none z-[3] relative  object-cover w-[100%] h-[100%]`}
+                              src={`/${image[imageIndex]}`}
+                              alt=""
+                              width={1440}
+                              height={900}
+                            ></Image>
+                            <Image
+                              className={`select-none absolute right-[-100%] top-0 z-[0]  object-cover w-[100%] h-[100%]`}
+                              src={imageIndex == image.length - 1
+                                ? `/${image[0]}`
+                                : `/${image[imageIndex + 1]}`}
+                              alt=""
+                              width={1440}
+                              height={900}
+                            ></Image>
+                          </motion.a>
+
+                          <motion.a
+                            href="./"
+                            className={`w-[100%] relative z-[2] h-[100%] right-[-100%] `}
+                          >
+                            {" "}
+                            <Image
+                              className={` z-[3] relative opacity-100 object-cover w-[100%] h-[100%]`}
+                              src={
+                                imageIndex == image.length - 1
+                                  ? `/${image[0]}`
+                                  : `/${image[imageIndex + 1]}`
+                              }
+                              alt=""
+                              width={1440}
+                              height={900}
+                            ></Image>{" "}
+                          </motion.a>
+                        </motion.div>
+                      </AnimatePresence>
                       <button
                         onClick={nextClick}
-                        className="absolute right-0 w-[30px]  flex items-center justify-center top-[50%]  translate-y-[-50%] h-[100%] opacity-70 bg-[#fff] "
+                        className="absolute right-0 w-[30px] z-[3] flex items-center justify-center top-[50%]  translate-y-[-50%] h-[100%] opacity-70 bg-[#fff] "
                       >
                         &gt;
                       </button>
                     </div>
-                    <ul className="flex gap-[5px]  w-[100%] absolute bottom-0 translate-y-[100%]">
+                    {/* <ul className="flex gap-[5px]  w-[100%] absolute bottom-0 translate-y-[100%]">
                       {data.map((e: any, item: any) => {
-                        if (btnState === item)
+                        if (page === item)
                           return (
                             <button
                               onClick={() => clickBox(item)}
@@ -112,7 +235,7 @@ export default function Index(props: any) {
                             ></button>
                           );
                       })}
-                    </ul>
+                    </ul> */}
                   </div>
                 )}
               </div>

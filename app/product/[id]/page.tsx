@@ -220,8 +220,11 @@ const alertBuySuccess = {
         if (amount > 1) setAmount((amount: number) => amount - 1);
         break;
       case "content":
-        setAmount( parseInt(target.value) );
+        setAmount( parseInt(target.value ? target.value : "0"));
+        break;
       case "up":
+        setAmount( amount + 1 );
+        break;
   }}
   const onBlurAmount = (event: any) => {
     if (amount < 1) setAmount(1);
