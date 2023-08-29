@@ -3,20 +3,18 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import axios from "axios";
 const Page = ({ params }: any) => {
-  const [api, setApi] = useState([]);
+  const [data, setApi] = useState([]);
   useEffect(function () {
-    fetch("/api/post")
-      .then((Response) => Response.json())
-      .then((req) => setApi(req));
+    axios({
+      method : 'get',
+      url : "http://localhost:3001/api/user",
+      params : {id : params.id}
+    })
+      .then((req) => setApi(req.data));
   }, []);
-  const data: any =
-    params.id.toUpperCase() == "XEMTATCA"
-      ? api.map((e: any) => e)
-      : api.filter(
-          (element: any) => element.user.idStudent == params.id.toUpperCase()
-        );
-  if (data.length != 0)
+  if (!!data)
     return (
       <section className="py-[140px]">
         <div className="max-w-[1440px] lg:px-[120px] px-[20px] gap-[20px] flex flex-wrap list-none mx-auto">
@@ -28,7 +26,7 @@ const Page = ({ params }: any) => {
               >
                 <div className="lg:w-[100%] h-[auto] w-[50%] overflow-hidden lg:rounded-[20px_20px_0_0] rounded-[20px_0_0_20px]">
                   <Image
-                    src={`/${user.user.data.url}`}
+                    src={`/${user.url}`}
                     width={1440}
                     height={900}
                     alt=""
@@ -41,19 +39,19 @@ const Page = ({ params }: any) => {
                       <p className="lg:text-[1.5vw] text-[2.2vw] ">Tên : 
                       </p>
                       <p className="font-[600]  h-[100%] align-baseline flex items-end text-[#000] lg:text-[1.2vw] text-[1.5vw] capitalize  ">
-                        {user.user.name}
+                        {user.name}
                       </p>
                     </div>
                     <div className="font-[600] text-[#f95555] lg:gap-[10px]  flex-col content-start items-baseline flex lg:text-[1.5vw] text-[2.2vw]">
                       <p className="flex items-end ">Mã số sinh viên : </p>
                       <p className="font-[600] text-[#000]  flex items-center  lg:text-[1.2vw] text-[1.5vw] uppercase">
-                        {user.user.idStudent}
+                        {user.idStudent}
                       </p>
                     </div>
                     <div className="font-[600] text-[#f95555] lg:gap-[10px] flex-col content-start items-baseline flex lg:text-[1.5vw] text-[2.2vw]">
                       <p className="flex items-end ">Địa chỉ : </p>
                       <p className="font-[600] text-[#000]  flex items-center lg:text-[1.2vw] text-[1.5vw] ">
-                        {user.user.address}
+                        {user.address}
                       </p>
                     </div>
                   </div>
@@ -61,19 +59,19 @@ const Page = ({ params }: any) => {
                     <div className="font-[600] text-[#f95555] lg:gap-[10px] flex-col content-start items-baseline flex lg:text-[1.5vw] text-[2.2vw]">
                       <p className="flex items-end ">Tên Sản Phẩm : </p>
                       <p className="font-[600] text-[#000]  flex items-center lg:text-[1.2vw] text-[1.5vw] ">
-                        {user.user.data.name}
+                        {user.name}
                       </p>
                     </div>
                     <div className="font-[600] text-[#f95555] lg:gap-[10px] flex-col content-start items-baseline flex lg:text-[1.5vw] text-[2.2vw]">
                       <p className="flex items-end ">Số Lượng : </p>
                       <p className="font-[600] text-[#000]  flex items-center lg:text-[1.2vw] text-[1.5vw] ">
-                        {user.user.number}
+                        {user.number}
                       </p>
                     </div>
                     <div className="font-[600] text-[#f95555] lg:gap-[10px] flex-col content-start items-baseline flex lg:text-[1.5vw] text-[2.2vw]">
                       <p className="flex items-end ">Thành Tiền : </p>
                       <p className="font-[600] text-[#000]  flex items-center lg:text-[1.2vw] text-[1.5vw] ">
-                        {user.user.number * user.user.data.money} VND
+                        {user.overall} VND
                       </p>
                     </div>
                   </div>

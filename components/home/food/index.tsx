@@ -7,13 +7,14 @@ import { motion } from "framer-motion";
 const index = (props: any) => {
   const data = props.data.filter((e: any) => e.check == "food");
   return (
-    <section id="food" className="snap-center w-[100%] bg-[#fdfaf6]  ">
-      <div className="relative  lg:p-[60px] p-[20px]  flex flex-col mx-[auto] max-w-[1440px]  gap-[60px]">
+    <article id="food" className="snap-center w-[100%] ">
+      <div className="relative lg:p-[60px] p-[20px]  flex flex-col mx-[auto] max-w-[1440px]  gap-[60px]">
         <div>
           <h2 className="flex justify-center drop-shadow-[5px_5px_5px_#989898] font-[700] text-[50px]">
             Food And Drink
           </h2>
         </div>
+        <div className="lg:p-[100px] lg:rounded-[40px] p-[40px] rounded-[20px] bg-[#fffdf99c]"> 
         <div className="flex justify-center">
           <div className="group rounded-[10px] w-[200px] h-[65px] relative transition-shadow duration-[1s]  ease-in-out  ">
             <p className="group-hover:text-[#fff] transition-color duration-[0.5s] delay-[0.5s] h-[60px]  absolute z-[3] bottom-0 left-[50%] translate-x-[-50%] text-[#000] font-[700] text-[50px]">
@@ -31,7 +32,7 @@ const index = (props: any) => {
             whileInView={"whileInview"}
             exit={"exit"}
             variants={props.parentAnimate}
-            className="list-none flex mt-[60px] lg:gap-[10px] gap-[20px] flex-wrap w-[100%] justify-between"
+            className="list-none flex mt-[60px]  lg:gap-[10px] gap-[20px] flex-wrap w-[100%] justify-between"
           >
             {data.map((product: any, item: number) => {
               return (
@@ -51,7 +52,8 @@ const index = (props: any) => {
           </motion.div>
         )}
       </div>
-    </section>
+      </div>
+    </article>
   );
 };
 

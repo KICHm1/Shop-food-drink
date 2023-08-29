@@ -67,6 +67,7 @@ const Page = () => {
   const refMoney = useRef(null);
   const [editP, setEdit] = useState(false);
   const [selectId, setSelectId] = useState(null);
+  const [createProduct, setCreateProduct ] = useState <Boolean >(false);
   useEffect(function () {
     axios
       .get("http://localhost:3001/api/source")
@@ -93,14 +94,13 @@ const Page = () => {
     if (image) {
       formData.append(`${image.name}`, image);
     }
-    if (method == "PUT") {
       const postNewData = new Promise((resolve, reject) => {
         axios({
-          method: "put",
-          url: "http://localhost:3001/api/put",
+          method: method,
+          url: "http://localhost:3001/api/changeProduct",
           data : {
             new: newContent,
-            old: oldContent,
+            old: oldContent
           },
           headers: {
             "Content-Type": "application/json",
@@ -109,7 +109,7 @@ const Page = () => {
           .then((req: any) => {
             const newData = data;
             if (selectId) {
-              if (req.product) newData.splice(selectId - 1, 1, req.product);
+              if (req.data.product) newData.splice(selectId - 1, 1, req.data.product);
               else newData.splice(selectId - 1, 1);
             }
             setApi(newData);
@@ -123,7 +123,6 @@ const Page = () => {
         axios.post("/api/image", formData);
         setSelectFile("");
       });
-    }
   };
   if (data.length != 0)
     return (
@@ -332,11 +331,18 @@ const Page = () => {
                                 ? `images/${image?.name}`
                                 : data[selectId - 1].url,
                             };
-                            await updateProduct(
+                            if(!createProduct){await updateProduct(
                               newContent,
                               data[selectId - 1],
-                              "PUT"
+                              "put"
                             );
+                            }else if(image) {
+                              await updateProduct(
+                                newContent,
+                                null,
+                                "post"
+                              );
+                            }
                           }
                           setEdit(!editP);
                         }}
@@ -347,7 +353,7 @@ const Page = () => {
                           await updateProduct(
                             null,
                             data[selectId - 1],
-                            "PATCH"
+                            "delete"
                           );
                         }}
                       >
@@ -419,6 +425,7 @@ const Page = () => {
               });
               setSelectId(data.length);
               setEdit(true);
+              setCreateProduct(true);
             }}
             type="button"
             id="create"

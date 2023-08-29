@@ -5,17 +5,19 @@ import { useState, useEffect ,useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MouseEvent } from "react";
+import axios from "axios";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { EachProductSkeleton } from "../../../components/listSkeleton";
 import { motion , AnimatePresence} from "framer-motion";
 function ProductPage(this: any, { params }: any) {
-  const [api, setApi] = useState([]);
+  const [data, setApi] = useState<any | null >(null);
   const [loading, setLoading] = useState< Boolean >(true);
   const [focusInputFirstName, setFocusInputFirstName] = useState< Boolean >(false);
   const [focusInputLastName, setFocusInputLastName] = useState< Boolean >(false);
   const [focusInputIdStudent, setFocusInputIdStudent] = useState< Boolean >(false);
   const [focusInputAddress, setFocusInputAddress] = useState< Boolean >(false);
+  const [focusInputPhone, setFocusInputPhone] = useState< Boolean >(false);
   const buySuccess = useRef<HTMLDivElement>(null);
   const contentComment = useRef<HTMLParagraphElement>(null)
   // set change input
@@ -23,12 +25,14 @@ function ProductPage(this: any, { params }: any) {
   const [changeInputLastName, setChangeInputLastName] = useState(null);
   const [changeInputIdStudent, setChangeInputIdStudent] = useState(null);
   const [changeInputAddress, setChangeInputAddress] = useState(null);
+  const [changeInputPhone, setChangeInputPhone] = useState(null);
   //
   // check value input
   const [checkInputFirstName, setCheckInputFirstName] = useState< Boolean >(false);
   const [checkInputLastName, setCheckInputLastName] = useState< Boolean >(false);
   const [checkInputIdStudent, setCheckInputIdStudent] = useState< Boolean >(false);
   const [checkInputAddress, setCheckInputAddress] = useState< Boolean >(false);
+  const [checkInputPhone, setCheckInputPhone] = useState< Boolean >(false);
   //
   const [commentEvaluate, setCommentEvaluate] = useState("");
   // so luong san pham
@@ -41,13 +45,17 @@ function ProductPage(this: any, { params }: any) {
   const [comments, setcomments] = useState({});
   const [listComment, setListComment] = useState([]);
   useEffect(function () {
-    fetch("/api/source")
-      .then((Response) => Response.json())
-      .then((req) => {
-        setApi(req);
+    axios({
+      method :'post',
+      url : "http://localhost:3001/api/source", 
+      data : {product : params.id}
+      })
+      .then((req ) => {
+        console.log('req.data', req.data)
+        setApi(req.data[0]);
         setLoading(false);
       });
-  }, []);
+  }, [params]);
 const left = { 
   hidden : {
     opacity : 0,
@@ -132,7 +140,6 @@ const alertBuySuccess = {
     }
   }
 }
-  const data : any = api.filter((item: any) => item.id == params.id)[0];
   const onFocusFirstName = () => {
     setFocusInputFirstName((focusInputFirstName) => true);
   };
@@ -158,6 +165,12 @@ const alertBuySuccess = {
   const onFocusAddress = () => {
     setFocusInputAddress((focusInputAddress) => true);
   };
+  const onBlurPhone = () => {
+    setFocusInputPhone((focusInputPhone) => false);
+  };
+  const onFocusPhone = () => {
+    setFocusInputPhone((focusInputPhone) => true);
+  };
   const onChangeValue = (event: any) => {
     switch (event.target.name) {
       case "firstName":
@@ -172,6 +185,8 @@ const alertBuySuccess = {
       case "address":
         setChangeInputAddress((changeInputAddress) => event.target.value);
         break;
+      case "phoneNumber" :
+        setChangeInputPhone(event.target.value)
     }
     const comment = {
       name: `${changeInputFirstName} ${changeInputLastName}`,
@@ -210,6 +225,9 @@ const alertBuySuccess = {
         if (value) setCheckInputAddress((checkInputAddress) => true);
         else setCheckInputAddress((checkInputAddress) => false);
         break;
+      case "phoneNumber" : 
+        if(value.length >= 9) setCheckInputPhone(true);
+        else setCheckInputPhone(false);
     }
   };
   // set tang giam so luong
@@ -232,26 +250,28 @@ const alertBuySuccess = {
  
   // submit don hang
   const onSubmitBuy = (event: any) => {
+    const time = new Date();
     const comment = {
       name: `${changeInputFirstName} ${changeInputLastName}`,
       idStudent: `${changeInputIdStudent}`,
       address: `${changeInputAddress}`,
+      phone : changeInputPhone,
       number: amount,
-      data: data,
+      product : data.id,
+      time : `${time.getFullYear()}-${time.getMonth() + 1}-${time.getDate()} ${time.getHours()}:${time.getMinutes()}`,
+      overall : data.money * amount,
     };
     setEventAfterBuy("loading");
     setcomments(comment);
-    const post = async () => {
-      const res : any = await fetch("/api/post", {
-        method: "POST",
-        body: JSON.stringify(comment),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if(await res.json()) setEventAfterBuy("success") ; 
-    };
-    post();
+    axios({
+      method : 'post',
+      url : "http://localhost:3001/api/user",
+      data : comment,
+    })
+      .then(res => {
+        if(res.data) setEventAfterBuy("success") ; 
+      })
+
     setCheckBuyProduct(true);
   };
   //
@@ -299,6 +319,10 @@ const alertBuySuccess = {
     focusInputAddress || changeInputAddress
       ? "sm:left-[75%] left-[70%] translate-y-[50%] z-[3]"
       : "z-[1] left-[1%] translate-y-0 text-[#000] flex";
+  let setLabelPhone =
+    focusInputPhone || changeInputPhone
+      ? "sm:left-[75%] left-[70%] translate-y-[50%] z-[3]"
+      : "z-[1] left-[1%] translate-y-0 text-[#000] flex";
   // set border
   let setBorderFirstName = checkInputFirstName
     ? "border-[#5cfe7577] text-[#5cfe75]"
@@ -310,6 +334,9 @@ const alertBuySuccess = {
     ? "border-[#5cfe7577] text-[#5cfe75]"
     : "border-[#f95555] text-[#f95555]";
   let setBorderAddress = checkInputAddress
+    ? "border-[#5cfe7577] text-[#5cfe75]"
+    : "border-[#f95555] text-[#f95555]";
+  let setBorderPhone = checkInputPhone
     ? "border-[#5cfe7577] text-[#5cfe75]"
     : "border-[#f95555] text-[#f95555]";
   return (
@@ -443,6 +470,24 @@ const alertBuySuccess = {
                   className={`${setLabelIdStudent}  absolute   font-[400] left-2 bg-[#fdfaf6] drop-shadow[0_0_2px_#fff] transition-all duration-[0.5s] `}
                 >
                   MSSV
+                </span>
+              </div>
+              <div
+                className={`${setBorderPhone} lg:text-[17px] sm:text-[16px] text-[14px] group relative border-[2px] w-[100%] h-[30px] rounded-[5px] transition-all duration-[0.5s]  bg-[#fdfaf6]`}
+              >
+                <input
+                  onFocus={onFocusPhone}
+                  onBlur={onBlurPhone}
+                  onChange={(event) => onChangeValue(event)}
+                  type="number"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  className="bg-[transparent] appearance-none absolute left-2 w-[70%] bottom-[1px] outline-none uppercase z-[2]"
+                />
+                <span
+                  className={`${setLabelPhone}  absolute   font-[400] left-2 bg-[#fdfaf6] drop-shadow[0_0_2px_#fff] transition-all duration-[0.5s] `}
+                >
+                  Số điện thoại
                 </span>
               </div>
               <div

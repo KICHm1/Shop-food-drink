@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 const index = (props: any) => {
   const data = props.data.filter((e: any) => e.popular);
   return (
-    <section id="popular" className="snap-center w-[100%] mt-[34px] bg-[#fff]">
+    <article id="popular" className="snap-center w-[100%] mt-[34px] bg-[#fff]">
       <div className=" lg:p-[120px] p-[20px] gap-[60px] max-w-[1440px] mx-[auto]">
         <h1 className="text-[#2B2B2B] drop-shadow-[5px_5px_5px_#989898] font-[700] flex justify-center lg:text-[50px] sm:text-[38px] text-[28px]">
           Những Món Phổ Biến
@@ -45,7 +45,7 @@ const index = (props: any) => {
           </motion.div>
         )}
       </div>
-    </section>
+    </article>
   );
 };
 

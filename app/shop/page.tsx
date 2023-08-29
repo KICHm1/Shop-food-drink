@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 const check = {
   wrongCheck1 : {
     y:[-10,0],
@@ -31,20 +32,12 @@ const check = {
       duration : 2,
     }
   },
-  falseCheck : {
-    
-  }
 }
 const Page = () => {
   const router = useRouter();
   const [data, setData] = useState([]);
   const [checkUser, setCheckUser] = useState < 0 | 1 | 2 > ();
   const [valueId , setValueId] = useState("");
-  useEffect(() => {
-    fetch("/api/post")
-      .then((res) => res.json())
-      .then((req) => setData((data) => req));
-  }, []);
   const checkInput = (valueCheck : string)  => {
     if(valueCheck.toLocaleLowerCase() == "create_product"){
       setCheckUser(0);
@@ -54,12 +47,18 @@ const Page = () => {
       setCheckUser(0);
       setTimeout(() => router.push(`/shop/${valueId}`) , 2000 );
     } 
-    else if (data.some((item : any )   => item.user.idStudent.toUpperCase() == valueCheck.toUpperCase())) {
-        setCheckUser(0);
-        setTimeout(() => router.push(`/shop/${valueId}`) , 2000 );
-      }
-      else checkUser == 1 ?  setCheckUser(2) : setCheckUser(1); 
+    else {
+      axios
+        .get("http://localhost:3001/api/check", {params : {id :valueId.toLocaleLowerCase()}})
+        .then(req =>{
+          if(!!req.data.check) {
+            setTimeout(() => router.push(`/shop/${valueId}`) , 2000 );
+            setCheckUser(0);
+          }
+            else checkUser == 1 ?  setCheckUser(2) : setCheckUser(1); 
+        })
   }
+}
     return (
       <section className="py-[140px]">
         <div className="max-w-[1440px] lg:px-[120px] px-[20px] gap-[20px] flex flex-wrap justify-center content-center list-none mx-auto">
@@ -81,8 +80,6 @@ const Page = () => {
                     (setValueId( target.value) );
                   }}
                   onKeyDown={ (e : React.KeyboardEvent<HTMLInputElement>) => { 
-                    
-                    console.log('valueId', valueId)
                     if(e.code == "Enter") {
                       checkInput(valueId) ;
                     }

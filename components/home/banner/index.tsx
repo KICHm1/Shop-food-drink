@@ -8,12 +8,12 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { BannerSkeleton } from "../../listSkeleton";
 import { transform, wrap } from "framer-motion";
 import { motion, AnimatePresence } from "framer-motion";
-const container =
-  screen.width >= 1440
-    ? 1200
-    : screen.width >= 1024
-    ? screen.width - 240
-    : screen.width - 40 ;
+var container : number;
+if(screen.width >= 1440)container = 1200
+  else if(screen.width >= 1024 ) container = screen.width - 240
+        else container = screen.width - 40;
+  
+console.log('container', screen.width)
 export default function Index(props: any) {
   const [[page, direction], setPage] = useState([0, 0]);
   const [translate, setTranslte] = useState(0);

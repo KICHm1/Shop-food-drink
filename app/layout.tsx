@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function RootLayout({
   children,
 }:any) {
+  const http ="http://localhost:3001" ;
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`w-[100%] select-none snap-mandatory `}>

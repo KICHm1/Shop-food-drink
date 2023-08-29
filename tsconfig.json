@@ -21,6 +21,7 @@
     ],
     "paths": {
       "@pageImage/*": ["./assets/images/pages/*"],
+      "@http/*" :["http://localhost:3001/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "index.js", "database.js"],
