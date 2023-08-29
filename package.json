@@ -4,11 +4,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "ios": "react-native run-ios",
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest",
-    "test:e2e": "npm run test",
-    "test:e2e:build": "npm run build"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
@@ -54,7 +53,6 @@
   "devDependencies": {
     "@types/formidable": "^3.4.1",
     "gh-pages": "^5.0.0",
-    "nodemon": "^3.0.1",
-    "parcel": "^2.9.3"
+    "nodemon": "^3.0.1"
   }
 }
